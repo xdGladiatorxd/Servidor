@@ -22,10 +22,7 @@ else {
     $nombre = recoge("nombre");
     $edad = recoge('edad');
     $email = recoge('email');
-    $resultImage = cFile("imagenes/",512000,array(
-        "jpg",
-        "gif"
-    ));
+    $resultImage = cFile("imagenes/",512000,"imagen",array("jpg", "gif"),$errores);
     if ((cTexto($nombre) == 0)) {
         $error = true;
         $errores[]="El nombre esta mal";
@@ -38,9 +35,8 @@ else {
         $error = true;
         $errores[]="El email esta mal";
     }
-    if(is_array($resultImage)){
+    if($resultImage=="0"){
         $error = true;
-        $errores=array_merge($errores,$resultImage);
     }
     if (! $error) {
         header("location:correcto.php?nombre=$nombre&edad=$edad&email=$email&archivo=$resultImage");

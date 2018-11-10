@@ -38,8 +38,8 @@ function sinEspacios($frase) {
 
 function recoge($var)
 {
-	if (isset($_POST[$var]))
-		$tmp=strip_tags(sinEspacios($_POST[$var]));
+    if (isset($_REQUEST[$var]))
+        $tmp=strip_tags(sinEspacios($_REQUEST[$var]));
 	else 
 		$tmp= "";
 	
@@ -71,14 +71,13 @@ function cEmail ($correo)
         return 0;
     }
 }
-function cFile ($dirA, $maxA, $extA)
+function cFile ($dirA, $maxA, $imgA, $extA, &$errores)
 {
-    $errores=array();
     $dir = $dirA;
     $max_file_size = $maxA;
     $extensionesValidas = $extA;
-    if ($_FILES['imagen']['error'] != 0) {
-        switch ($_FILES['imagen']['error']) {
+    if ($_FILES[$imgA]['error'] != 0) {
+        switch ($_FILES[$imgA]['error']) {
             case 1:
                 $errores[]="UPLOAD_ERR_INI_SIZE";
                 $errores[]="Fichero demasiado grande";
@@ -105,14 +104,14 @@ function cFile ($dirA, $maxA, $extA)
             default:
                 $errores[]='Error indeterminado.';
         }
-        return $errores;
+        return "0";
     } else {
         // Guardamos el nombre original del fichero
-        $nombreArchivo = $_FILES['imagen']['name'];
+        $nombreArchivo = $_FILES[$imgA]['name'];
         // Guardamos tamaño fichero
-        $filesize = $_FILES['imagen']['size'];
+        $filesize = $_FILES[$imgA]['size'];
         // Guardamos nombre del fichero en el servidor
-        $directorioTemp = $_FILES['imagen']['tmp_name'];
+        $directorioTemp = $_FILES[$imgA]['tmp_name'];
         // Guardamos la información del archivo en un array
         $arrayArchivo = pathinfo($nombreArchivo);
         /*
@@ -150,7 +149,7 @@ function cFile ($dirA, $maxA, $extA)
                 $errores[]="Error: No se puede mover el fichero a su destino";
             }
         }
-        return $errores;
+        return "0";
     }
 }
 ?>
